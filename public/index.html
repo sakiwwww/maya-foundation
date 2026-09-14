@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f4f1ec">
+<title>MAYA COOPERATION STARK</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#f5f2ed;color:#222;min-height:100vh}
+button{font:inherit}
+.header{position:sticky;top:0;z-index:20;background:rgba(245,242,237,.94);backdrop-filter:blur(14px);border-bottom:1px solid #ddd7cf}
+.nav{max-width:1100px;margin:auto;padding:17px 20px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-family:'Playfair Display',serif;font-size:22px;letter-spacing:1px}
+.brand small{font:600 9px 'DM Sans';display:block;letter-spacing:3px;color:#777;margin-top:2px}
+.cart-btn{border:1px solid #222;background:#222;color:#fff;border-radius:99px;padding:10px 15px;cursor:pointer}
+.badge{display:inline-flex;min-width:20px;height:20px;align-items:center;justify-content:center;border-radius:50%;background:#fff;color:#222;font-size:11px;margin-left:5px}
+.hero{max-width:1100px;margin:auto;padding:54px 20px 35px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(42px,7vw,76px);line-height:.98}
+.hero p{color:#777;max-width:520px;margin:20px 0;font-size:15px;line-height:1.7}
+.hero-tag{display:inline-block;background:#e6e0d7;border-radius:99px;padding:7px 12px;font-size:11px;letter-spacing:2px;margin-bottom:16px}
+.hero-card{height:330px;border-radius:28px;background:linear-gradient(135deg,#ded6cb,#f9f6f1);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.hero-card span{font-family:'Playfair Display';font-size:80px;color:#b9afa2;opacity:.55}
+.section{max-width:1100px;margin:auto;padding:20px}
+.section-head{display:flex;align-items:end;justify-content:space-between;margin:25px 0 15px}
+.section h2{font-family:'Playfair Display',serif;font-size:30px}
+.section-head p{color:#888;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:15px}
+.card{background:#fff;border:1px solid #e3ded7;border-radius:18px;overflow:hidden;box-shadow:0 6px 22px rgba(40,35,30,.04)}
+.pic{height:220px;background:#e9e4dd;display:flex;align-items:center;justify-content:center;color:#9d948a;position:relative;overflow:hidden}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic .ph{font-size:12px;text-align:center;line-height:1.5;padding:15px}
+.info{padding:14px}
+.name{font-weight:600;font-size:14px}
+.desc{font-size:11px;color:#888;margin-top:4px}
+.price{font-weight:700;margin-top:10px}
+.add{width:100%;margin-top:11px;border:0;border-radius:11px;background:#222;color:#fff;padding:10px;cursor:pointer}
+.add:active{transform:scale(.98)}
+.footer{margin-top:55px;background:#222;color:#eee;text-align:center;padding:45px 20px}
+.footer strong{font-family:'Playfair Display';font-size:25px}
+.footer p{color:#aaa;font-size:12px;margin-top:9px}
+.drawer{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:50;display:none}
+.drawer.open{display:block}
+.panel{position:absolute;right:0;top:0;height:100%;width:min(430px,100%);background:#f9f7f3;padding:22px;display:flex;flex-direction:column}
+.panel-head{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ddd;padding-bottom:16px}
+.close{border:0;background:none;font-size:25px;cursor:pointer}
+.items{flex:1;overflow:auto;padding:10px 0}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:8px;padding:14px 0;border-bottom:1px solid #e1ddd7}
+.cart-item b{font-size:13px}.cart-item small{color:#888}
+.qty{display:flex;align-items:center;gap:8px;margin-top:7px}
+.qty button{width:26px;height:26px;border:1px solid #ccc;background:#fff;border-radius:7px;cursor:pointer}
+.total{border-top:1px solid #ddd;padding-top:15px;font-weight:700;display:flex;justify-content:space-between}
+.checkout{margin-top:12px}
+.checkout button{width:100%;padding:13px;border:0;border-radius:12px;background:#222;color:white;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:70;display:none;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}
+.modal-box{background:#f9f7f3;width:min(450px,100%);max-height:90vh;overflow:auto;border-radius:22px;padding:22px}
+.modal-title{font-family:'Playfair Display';font-size:25px;margin-bottom:15px}
+label{font-size:12px;color:#666;display:block;margin:12px 0 5px}
+input,textarea,select{width:100%;border:1px solid #d8d2ca;border-radius:10px;padding:11px;background:white;outline:none}
+textarea{resize:vertical;min-height:70px}
+.qris{margin:15px auto;width:220px;height:220px;border:1px dashed #bbb;border-radius:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#eee}
+.qris img{width:100%;height:100%;object-fit:contain}
+.qris span{font-size:11px;color:#888;text-align:center;padding:20px}
+.modal-actions{display:flex;gap:9px;margin-top:15px}
+.modal-actions button{flex:1;padding:12px;border-radius:11px;border:0;cursor:pointer}
+.cancel{background:#e7e2db}.send{background:#222;color:#fff}
+.note{font-size:10px;color:#999;line-height:1.5;margin-top:10px}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.hero-card{height:220px}.grid{grid-template-columns:repeat(2,1fr)}.pic{height:190px}}
+@media(max-width:450px){.grid{gap:10px}.pic{height:160px}.section{padding:15px}.hero{padding:40px 15px 25px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <nav class="nav">
+    <div class="brand">MAYA COOPERATION<small>STARK • MODEST WEAR</small></div>
+    <button class="cart-btn" onclick="openCart()">Keranjang <span class="badge" id="cartCount">0</span></button>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <div>
+    <span class="hero-tag">NEW COLLECTION</span>
+    <h1>Simple.<br>Modest.<br>MAYA.</h1>
+    <p>Temukan kerudung dan pakaian muslimah pilihan dengan tampilan clean, nyaman, dan cocok dipakai sehari-hari.</p>
+  </div>
+  <div class="hero-card"><span>MAYA</span></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>Kerudung</h2><p>Pilihan hijab untuk gaya sehari-hari</p></div></div>
+  <div class="grid" id="kerudung"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>Celana Muslimah</h2><p>Nyaman, loose, dan easy to style</p></div></div>
+  <div class="grid" id="celana"></div>
+</section>
+
+<section class="section">
+  <div class="section-head"><div><h2>Pakaian Muslimah</h2><p>Koleksi modest wear MAYA</p></div></div>
+  <div class="grid" id="pakaian"></div>
+</section>
+</main>
+
+<footer class="footer">
+  <strong>Terima kasih atas pembeliannya</strong>
+  <p>di MAYA COOPERATION STARK ♡</p>
+  <p style="margin-top:18px">© 2026 MAYA COOPERATION STARK</p>
+</footer>
+
+<div class="drawer" id="drawer" onclick="if(event.target===this)closeCart()">
+  <aside class="panel">
+    <div class="panel-head"><b>Keranjang Belanja</b><button class="close" onclick="closeCart()">×</button></div>
+    <div class="items" id="cartItems"></div>
+    <div class="total"><span>Total</span><span id="total">Rp0</span></div>
+    <div class="checkout"><button onclick="openCheckout()">Lanjut Pembayaran</button></div>
+  </aside>
+</div>
+
+<div class="modal" id="checkoutModal">
+ <div class="modal-box">
+   <div class="modal-title">Checkout</div>
+   <label>Nama</label><input id="customerName" placeholder="Nama kamu">
+   <label>No. WhatsApp</label><input id="customerPhone" placeholder="08xxxxxxxxxx" inputmode="tel">
+   <label>Alamat</label><textarea id="customerAddress" placeholder="Alamat lengkap pengiriman"></textarea>
+   <label>Metode Pembayaran</label>
+   <select id="paymentMethod" onchange="togglePayment()" style="width:100%;border:1px solid #d8d2ca;border-radius:10px;padding:11px;background:white">
+     <option value="QRIS">QRIS</option>
+     <option value="TRANSFER">Transfer Bank</option>
+   </select>
+
+   <div id="transferFields" style="display:none">
+     <label>Bank Tujuan</label>
+     <input id="bankName" placeholder="Contoh: BCA">
+     <label>Nominal Transfer</label>
+     <input id="transferAmount" type="number" placeholder="Contoh: 250000" inputmode="numeric">
+     <label>Bukti Transfer / Slip</label>
+     <input id="transferSlip" type="file" accept="image/*,.pdf" onchange="previewSlip()">
+     <div id="slipPreview" style="display:none;margin-top:10px;text-align:center"></div>
+   </div>
+
+   <div id="qrisFields">
+   <label>QRIS Payment</label>
+   <div class="qris">
+     <!-- GANTI URL DI BAWAH DENGAN URL IMAGE QRIS DARI CLOUDINARY -->
+     <img id="qrisImage" src="" alt="QRIS" style="display:none">
+     <span id="qrisPlaceholder">QRIS kamu akan muncul di sini.<br><br>Edit variabel <b>QRIS_URL</b> di bagian JavaScript.</span>
+   </div>
+   </div>
+   <div class="note">Untuk transfer bank, upload slip/bukti transfer. Data pesanan dan bukti transfer akan dikirim melalui server Vercel ke Discord sebelum konfirmasi WhatsApp.</div>
+   <div class="modal-actions">
+     <button class="cancel" onclick="closeCheckout()">Batal</button>
+     <button class="send" onclick="submitOrder()">Kirim Pesanan</button>
+   </div>
+ </div>
+</div>
+
+<script>
+/* ==============================
+   PENGATURAN TOKO — EDIT DI SINI
+   ============================== */
+
+// Nomor WhatsApp toko. Format internasional TANPA +.
+// Contoh Indonesia: 6281234567890
+const WHATSAPP_NUMBER = "6281234567890";
+
+// Setelah QRIS di-upload ke Cloudinary, tempel URL gambarnya di sini.
+const QRIS_URL = "";
+
+// DISCORD WEBHOOK
+// Tempel URL Discord Webhook kamu di antara tanda kutip.
+// CATATAN: Webhook yang ditaruh langsung di HTML dapat terlihat oleh pengunjung website.
+// Untuk toko publik, sebaiknya gunakan backend/proxy.
+const DISCORD_WEBHOOK_URL = "ISI_WEBHOOK_DISCORD_DI_SINI";
+
+/* Produk: untuk menambah produk, copy salah satu object di bawah.
+   image bisa diisi URL Cloudinary / link gambar lain. */
+const products = {
+ kerudung:[
+  {id:1,name:"MAYA Voal Basic",desc:"Voal premium • 115x115 cm",price:79000,image:""},
+  {id:2,name:"MAYA Paris Soft",desc:"Paris premium • ringan",price:65000,image:""},
+  {id:3,name:"MAYA Pashmina",desc:"Pashmina • 180x70 cm",price:89000,image:""},
+  {id:4,name:"MAYA Silk Scarf",desc:"Silky • elegant look",price:99000,image:""}
+ ],
+ celana:[
+  {id:5,name:"MAYA Loose Pants",desc:"Loose fit • daily wear",price:129000,image:""},
+  {id:6,name:"MAYA Kulot Basic",desc:"Kulot • flowy & nyaman",price:119000,image:""},
+  {id:7,name:"MAYA Straight Pants",desc:"Straight fit • clean look",price:139000,image:""},
+  {id:8,name:"MAYA Palazzo",desc:"Palazzo • modest fit",price:149000,image:""}
+ ],
+ pakaian:[
+  {id:9,name:"MAYA Tunic",desc:"Tunic • simple & modest",price:159000,image:""},
+  {id:10,name:"MAYA Gamis Daily",desc:"Gamis • loose & nyaman",price:199000,image:""},
+  {id:11,name:"MAYA Blouse",desc:"Blouse • everyday modest",price:139000,image:""},
+  {id:12,name:"MAYA Dress",desc:"Dress • elegant modest",price:229000,image:""}
+ ]
+};
+
+let cart = JSON.parse(localStorage.getItem("maya_cart") || "[]");
+
+const rupiah = n => new Intl.NumberFormat("id-ID",{style:"currency",currency:"IDR",maximumFractionDigits:0}).format(n);
+
+function renderProducts(){
+ ["kerudung","celana","pakaian"].forEach(cat=>{
+   document.getElementById(cat).innerHTML = products[cat].map(p=>`
+    <article class="card">
+      <div class="pic">
+        ${p.image ? `<img src="${p.image}" alt="${p.name}">` : `<div class="ph">FOTO PRODUK<br><b>${p.name}</b><br>Upload foto via Cloudinary</div>`}
+      </div>
+      <div class="info">
+        <div class="name">${p.name}</div>
+        <div class="desc">${p.desc}</div>
+        <div class="price">${rupiah(p.price)}</div>
+        <button class="add" onclick="addToCart(${p.id})">+ Tambah ke Keranjang</button>
+      </div>
+    </article>`).join("");
+ });
+}
+
+function allProducts(){return [...products.kerudung,...products.celana,...products.pakaian]}
+function findProduct(id){return allProducts().find(p=>p.id===id)}
+
+function addToCart(id){
+ const item=cart.find(x=>x.id===id);
+ if(item)item.qty++;
+ else cart.push({id,qty:1});
+ saveCart(); openCart();
+}
+
+function saveCart(){
+ localStorage.setItem("maya_cart",JSON.stringify(cart));
+ renderCart();
+}
+
+function renderCart(){
+ const count=cart.reduce((s,x)=>s+x.qty,0);
+ document.getElementById("cartCount").textContent=count;
+ const box=document.getElementById("cartItems");
+ if(!cart.length){box.innerHTML='<div style="text-align:center;color:#999;padding:50px 10px">Keranjang masih kosong.</div>';document.getElementById("total").textContent=rupiah(0);return}
+ let total=0;
+ box.innerHTML=cart.map(x=>{
+   const p=findProduct(x.id); total+=p.price*x.qty;
+   return `<div class="cart-item">
+    <div><b>${p.name}</b><br><small>${rupiah(p.price)} × ${x.qty}</small>
+      <div class="qty"><button onclick="changeQty(${p.id},-1)">−</button><span>${x.qty}</span><button onclick="changeQty(${p.id},1)">+</button></div>
+    </div>
+    <b>${rupiah(p.price*x.qty)}</b>
+   </div>`;
+ }).join("");
+ document.getElementById("total").textContent=rupiah(total);
+}
+
+function changeQty(id,n){
+ const item=cart.find(x=>x.id===id); if(!item)return;
+ item.qty+=n; if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+ saveCart();
+}
+
+function openCart(){document.getElementById("drawer").classList.add("open");renderCart()}
+function closeCart(){document.getElementById("drawer").classList.remove("open")}
+
+function openCheckout(){
+ if(!cart.length){alert("Keranjang masih kosong.");return}
+ closeCart();
+ document.getElementById("checkoutModal").classList.add("show");
+}
+function closeCheckout(){document.getElementById("checkoutModal").classList.remove("show")}
+
+function setQRIS(){
+ const img=document.getElementById("qrisImage"), ph=document.getElementById("qrisPlaceholder");
+ if(QRIS_URL){img.src=QRIS_URL;img.style.display="block";ph.style.display="none"}
+}
+
+function togglePayment(){
+ const method=document.getElementById("paymentMethod").value;
+ document.getElementById("transferFields").style.display = method==="TRANSFER" ? "block" : "none";
+ document.getElementById("qrisFields").style.display = method==="QRIS" ? "block" : "none";
+}
+
+function previewSlip(){
+ const input=document.getElementById("transferSlip");
+ const box=document.getElementById("slipPreview");
+ box.innerHTML="";
+ if(!input.files || !input.files[0]){box.style.display="none";return}
+ const file=input.files[0];
+ if(file.type.startsWith("image/")){
+   const img=document.createElement("img");
+   img.src=URL.createObjectURL(file);
+   img.style="max-width:100%;max-height:180px;border-radius:10px";
+   box.appendChild(img);
+ }else{
+   box.innerHTML='<div style="font-size:11px;color:#777">PDF slip dipilih: '+file.name+'</div>';
+ }
+ box.style.display="block";
+}
+
+function getOrderData(){
+ const name=document.getElementById("customerName").value.trim();
+ const phone=document.getElementById("customerPhone").value.trim();
+ const address=document.getElementById("customerAddress").value.trim();
+ const method=document.getElementById("paymentMethod").value;
+
+ if(!name||!phone||!address){
+   alert("Mohon isi nama, nomor WhatsApp, dan alamat.");
+   return null;
+ }
+
+ if(method==="TRANSFER"){
+   const bank=document.getElementById("bankName").value.trim();
+   const amount=document.getElementById("transferAmount").value.trim();
+   const slip=document.getElementById("transferSlip").files[0];
+   if(!bank||!amount||!slip){
+     alert("Untuk transfer, isi bank, nominal transfer, dan upload slip.");
+     return null;
+   }
+   if(slip.size > 8*1024*1024){
+     alert("Ukuran slip maksimal 8 MB.");
+     return null;
+   }
+ }
+
+ let total=0;
+ const items=cart.map(x=>{
+   const p=findProduct(x.id);
+   total+=p.price*x.qty;
+   return {name:p.name, qty:x.qty, price:p.price, subtotal:p.price*x.qty};
+ });
+
+ return {name,phone,address,method,total,items};
+}
+
+async function sendDiscordWebhook(order){
+ const slip=document.getElementById("transferSlip").files[0];
+
+ try{
+   let slipData=null;
+   if(order.method==="TRANSFER" && slip){
+     if(!slip.type.startsWith("image/") && slip.type!=="application/pdf"){
+       throw new Error("Format slip tidak didukung");
+     }
+     if(slip.size > 8*1024*1024){
+       throw new Error("Ukuran slip maksimal 8 MB");
+     }
+
+     // Slip dikirim ke backend Vercel sebagai base64.
+     // Backend kemudian meneruskannya ke Discord.
+     const buffer=await slip.arrayBuffer();
+     let binary="";
+     const bytes=new Uint8Array(buffer);
+     const chunk=0x8000;
+     for(let i=0;i<bytes.length;i+=chunk){
+       binary+=String.fromCharCode(...bytes.subarray(i,Math.min(i+chunk,bytes.length)));
+     }
+     slipData={
+       filename: slip.name,
+       contentType: slip.type,
+       data: btoa(binary)
+     };
+   }
+
+   const response=await fetch("/api/order",{
+     method:"POST",
+     headers:{"Content-Type":"application/json"},
+     body:JSON.stringify({
+       order,
+       slip: slipData
+     })
+   });
+
+   const result=await response.json().catch(()=>({}));
+   if(!response.ok || !result.success){
+     throw new Error(result.message || "Gagal mengirim pesanan");
+   }
+   return true;
+ }catch(error){
+   console.error(error);
+   alert(error.message || "Gagal mengirim pesanan.");
+   return false;
+ }
+}
+
+async function submitOrder(){
+ const order=getOrderData();
+ if(!order)return;
+
+ const btn=document.querySelector(".send");
+ btn.disabled=true;
+ btn.textContent="Mengirim...";
+
+ const discordOK=await sendDiscordWebhook(order);
+ if(!discordOK){
+   btn.disabled=false;
+   btn.textContent="Kirim Pesanan";
+   return;
+ }
+
+ const itemLines=order.items.map(x=>`• ${x.name} x${x.qty} = ${rupiah(x.subtotal)}`).join("\\n");
+ const msg=`Halo MAYA COOPERATION STARK, saya ingin konfirmasi pesanan.
+
+Nama: ${order.name}
+No. WA: ${order.phone}
+Alamat: ${order.address}
+
+Pesanan:
+${itemLines}
+
+Total: ${rupiah(order.total)}
+Pembayaran: ${order.method}
+
+Saya sudah mengirim data pesanan/bukti pembayaran. Mohon dikonfirmasi.`;
+
+ window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(msg),"_blank");
+
+ cart=[];
+ saveCart();
+ closeCheckout();
+ btn.disabled=false;
+ btn.textContent="Kirim Pesanan";
+}
+
+function sendWhatsApp(){
+ // Fungsi lama dipertahankan untuk kompatibilitas.
+ submitOrder();
+}
+
+
+
+renderProducts();renderCart();setQRIS();
+</script>
+</body>
+</html>
